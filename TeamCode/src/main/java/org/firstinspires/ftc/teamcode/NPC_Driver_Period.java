@@ -6,7 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-
+// if(jack.isDriving){
+ //crash
+ //}
 
 @TeleOp(name="NPC Driver Period", group="Linear Opmode")
 
@@ -30,7 +32,7 @@ public class NPC_Driver_Period extends LinearOpMode {
     // The Touch Sensor.
 
     TouchSensor touch;
-
+    TouchSensor toucht;
     @Override
     public void runOpMode() {
 
@@ -53,7 +55,7 @@ public class NPC_Driver_Period extends LinearOpMode {
         // Sensor
 
         touch = hardwareMap.get(TouchSensor.class, "touch");
-
+        toucht = hardwareMap.get(TouchSensor.class, "toucht");
 
         // This sets the motor power to zero, so the motors DO NOT run during the initialize phase
 
@@ -74,7 +76,7 @@ public class NPC_Driver_Period extends LinearOpMode {
         motorBR.setDirection(DcMotor.Direction.REVERSE);
         motorBL.setDirection(DcMotor.Direction.FORWARD);
         motorLS.setDirection(DcMotor.Direction.FORWARD);
-        motorLS2.setDirection(DcMotor.Direction.FORWARD);
+        motorLS2.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -110,10 +112,10 @@ public class NPC_Driver_Period extends LinearOpMode {
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power
             // And direction for Regular speed
-            double leftFrontPower = .6 * (axial + lateral + yaw);
-            double rightFrontPower = .6 * (axial - lateral - yaw);
-            double leftBackPower = .6 * (axial - lateral + yaw);
-            double rightBackPower = .6 * (axial + lateral - yaw);
+            double leftFrontPower = .5 * (axial + lateral + yaw);
+            double rightFrontPower = .5 * (axial - lateral - yaw);
+            double leftBackPower = .5 * (axial - lateral + yaw);
+            double rightBackPower = .5 * (axial + lateral - yaw);
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power
             // And direction for Fast speed
@@ -124,10 +126,10 @@ public class NPC_Driver_Period extends LinearOpMode {
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power
             // And direction for Slow speed
-            double SleftFrontPower = .35 * (axial + lateral + yaw);
-            double SrightFrontPower = .35 * (axial - lateral - yaw);
-            double SleftBackPower = .35 * (axial - lateral + yaw);
-            double SrightBackPower = .35 * (axial + lateral - yaw);
+            double SleftFrontPower = .2 * (axial + lateral + yaw);
+            double SrightFrontPower = .2 * (axial - lateral - yaw);
+            double SleftBackPower = .2 * (axial - lateral + yaw);
+            double SrightBackPower = .2 * (axial + lateral - yaw);
 
 
             ////////////////////////////////////////////////////////////////////////////////////////////
@@ -217,12 +219,16 @@ public class NPC_Driver_Period extends LinearOpMode {
             // Code below tells it to go down
 
             if (ls > 0) {
+                if(toucht.isPressed()){
+                    motorLS.setPower(0.25);
+                    motorLS2.setPower(0.25);
+                }
                 if (touch.isPressed()) {
                     motorLS.setPower(0);
                     motorLS2.setPower(0);
                 } else {
-                    motorLS.setPower(1 * ls);
-                    motorLS2.setPower(1 * ls);
+                    motorLS.setPower(0.5 * ls);
+                    motorLS2.setPower(0.5 * ls);
                 }
             }
 
@@ -239,34 +245,22 @@ public class NPC_Driver_Period extends LinearOpMode {
                 servoR.setPosition(0);
             }
 
-            // Open armss
+            // Open arms
 
             if (gamepad2.y) {
                 servoL.setPosition(.25);
                 servoR.setDirection(Servo.Direction.REVERSE);
                 servoR.setPosition(.25);
             }
-
-            if (gamepad2.dpad_left) {
-                usmall(3800,-1);
-
-            }
-
-            if (gamepad2.dpad_up) {
-                ularge(3350,-1);
+//set height to mid
+            if (gamepad2.dpad_down) {
+                mid(500,-1);
 
             }
-
-            if (gamepad2.dpad_right){
-                umedium(1125,-1);
-            }
-
         }
-
-
     }
 
-    private void usmall (int time, double speed) {
+    private void mid (int time, double speed) {
         motorLS.setDirection(DcMotorSimple.Direction.REVERSE);
         motorLS2.setDirection(DcMotorSimple.Direction.FORWARD);
 
@@ -277,25 +271,5 @@ public class NPC_Driver_Period extends LinearOpMode {
         motorLS.setPower(0);
         motorLS2.setPower(0);
     }
-    private void umedium (int time, double speed) {
-        motorLS.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorLS2.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        motorLS.setPower(speed);
-        motorLS2.setPower(speed);
-
-        sleep(time);
-        motorLS.setPower(0);
-        motorLS2.setPower(0);
     }
-    private void ularge (int time, double speed) {
-        motorLS.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorLS2.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        motorLS.setPower(speed);
-        motorLS2.setPower(speed);
-
-        sleep(time);
-        motorLS.setPower(0);
-        motorLS2.setPower(0);
-    }}

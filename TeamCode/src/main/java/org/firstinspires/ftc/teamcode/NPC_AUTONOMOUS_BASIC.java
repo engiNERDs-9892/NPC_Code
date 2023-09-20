@@ -19,6 +19,11 @@
  * SOFTWARE.
  */
 
+////////////////////////////////////////////////////////////////////
+//GO ON  THE RIGHT EVERY TIME OR YOU WILL KILL YOUR TEAMMATES AUTO//
+////////////////////////////////////////////////////////////////////
+//EZ 22 POINTS
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -36,9 +41,9 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Autonomous
-public class NPC_AUTONOMOUS extends LinearOpMode
+public class NPC_AUTONOMOUS_BASIC extends LinearOpMode
 {
-private int in=45;
+    private int in=45;
     static final double tick_per_revolution = 537.7;
     static final double wheel_diameter = 3.779;
     static final double tick_per_inch = (tick_per_revolution / (wheel_diameter * 3.14));
@@ -68,10 +73,10 @@ private int in=45;
     // UNITS ARE METERS
     double tagsize = 0.166;
 
-   // int ID_TAG_OF_INTEREST = 18;
-    int baguetteboy= 1; // detects april tag ID#1
-    int blakevieu= 2; // detects april tag ID#2
-    int jackarywallace= 3; // detects april tag ID#3
+    // int ID_TAG_OF_INTEREST = 18;
+    int taguno= 1; // detects april tag ID#1
+    int tagdos= 2; // detects april tag ID#2
+    int tagtres= 3; // detects april tag ID#3
 
     AprilTagDetection tagOfInterest = null;
 
@@ -116,7 +121,7 @@ private int in=45;
                 boolean tagFound = false;
 
                 for (AprilTagDetection tag : currentDetections) {
-                    if (tag.id == baguetteboy || tag.id == blakevieu || tag.id == jackarywallace) {
+                    if (tag.id == taguno || tag.id == tagdos || tag.id == tagtres) {
                         tagOfInterest = tag;
                         tagFound = true;
                         break;
@@ -124,10 +129,10 @@ private int in=45;
                 }
 
                 if (tagFound) {
-                    telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
+                    telemetry.addLine("la tag de interesante es aqui :) MAke sure you are on the right side.\n\nLocation data:");
                     tagToTelemetry(tagOfInterest);
                 } else {
-                    telemetry.addLine("Don't see tag of interest :(");
+                    telemetry.addLine("La tag de interesante no es aqui :( ");
 
                     if (tagOfInterest == null) {
                         telemetry.addLine("(The tag has never been seen)");
@@ -138,7 +143,7 @@ private int in=45;
                 }
 
             } else {
-                telemetry.addLine("Don't see tag of interest :(");
+                telemetry.addLine("La tag de intersante no es aqui. :(");
 
                 if (tagOfInterest == null) {
                     telemetry.addLine("(The tag has never been seen)");
@@ -176,25 +181,24 @@ private int in=45;
             Right(2000, .35);
 
 
-        } else if (tagOfInterest.id == baguetteboy) {
+        } else if (tagOfInterest.id == taguno) {
             //park Left
-            sleep(15000);
-Forwards(1250, .35);
-Right(2200, .35);
-
-
-        } else if (tagOfInterest.id == blakevieu){
-        //park middle
-
 
             sleep(15000);
-            Right(2000, .35);
+            Forwards(1200, .35);
+            Right(2200, .35);
+
+        } else if (tagOfInterest.id == tagdos){
+            //park middle
+            sleep(15000);
+            Right(2100, .35);
         }else {
-           //park right and play in corner
-sleep(15000);
-            Back(1250, .35);
-            Right(2000, .35);
-       }
+            //park right
+            sleep(15000);
+            Back(1300, .35);
+            Right(2200, .35);
+
+        }
 
 
     }
@@ -247,7 +251,7 @@ sleep(15000);
         motorBL.setPower(speed);
         motorBR.setPower(speed);
         // While loop keeps the code running until motors reach the desired position
-       sleep(time);
+        sleep(time);
         motorFL.setPower(0);
         motorFR.setPower(0);
         motorBL.setPower(0);
@@ -271,14 +275,14 @@ sleep(15000);
         motorBL.setPower(speed);
         motorBR.setPower(speed);
         // While loop keeps the code running until motors reach the desired position
-       sleep(time);
+        sleep(time);
         motorFL.setPower(0);
         motorFR.setPower(0);
         motorBL.setPower(0);
         motorBR.setPower(0);
     }
 
-//drive left
+    //drive left
     private void Left (int time,double speed) {
         // The stop and reset encoders is needed to reset and start the encoders (You need one at the
         // end because it tells the robot where the drive code starts and ends, kinda like brackets)
@@ -338,3 +342,7 @@ sleep(15000);
 
 
 }
+
+
+
+

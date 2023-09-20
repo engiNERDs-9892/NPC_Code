@@ -41,9 +41,9 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Autonomous
-public class NPC_AUTONOMOUS_BR extends LinearOpMode
+public class NPC_AUTONOMOUS_RL extends LinearOpMode
 {
-private int in=45;
+    private int in=45;
     static final double tick_per_revolution = 537.7;
     static final double wheel_diameter = 3.779;
     static final double tick_per_inch = (tick_per_revolution / (wheel_diameter * 3.14));
@@ -73,7 +73,7 @@ private int in=45;
     // UNITS ARE METERS
     double tagsize = 0.166;
 
-   // int ID_TAG_OF_INTEREST = 18;
+    // int ID_TAG_OF_INTEREST = 18;
     int taguno= 1; // detects april tag ID#1
     int tagdos= 2; // detects april tag ID#2
     int tagtres= 3; // detects april tag ID#3
@@ -178,32 +178,31 @@ private int in=45;
             //park default to middle
 
             sleep(15000);
-            Back(1000, .35);
             Forwards(1000, .35);
+            Back(1000, .35);
             Right(2000, .35);
 
 
         } else if (tagOfInterest.id == taguno) {
             //park Left
-            Back(1100, .35);
-            sleep(15000);
-Forwards(2300, .35);
-Right(2200, .35);
+            Forwards(1150, .35);
+            Right(2150, .35);
 
         } else if (tagOfInterest.id == tagdos){
-        //park middle
-            Back(1250, .35);
+            //park middle
+            Forwards(1100, .35);
+            Back(1050, .35);
             sleep(15000);
-            Forwards(1150, .35);
             Right(2000, .35);
         }else {
-           //park right
-            Back(1200, .35);
-            Forwards(200, .35);
+            //park right
+
+sleep(15000);
+            Forwards(1150, .35);
+            Back(2250, .35);
             Right(2200, .35);
-            Back(700, .35);
-            Right(200, .35);
-       }
+
+        }
 
 
     }
@@ -256,7 +255,7 @@ Right(2200, .35);
         motorBL.setPower(speed);
         motorBR.setPower(speed);
         // While loop keeps the code running until motors reach the desired position
-       sleep(time);
+        sleep(time);
         motorFL.setPower(0);
         motorFR.setPower(0);
         motorBL.setPower(0);
@@ -280,14 +279,14 @@ Right(2200, .35);
         motorBL.setPower(speed);
         motorBR.setPower(speed);
         // While loop keeps the code running until motors reach the desired position
-       sleep(time);
+        sleep(time);
         motorFL.setPower(0);
         motorFR.setPower(0);
         motorBL.setPower(0);
         motorBR.setPower(0);
     }
 
-//drive left
+    //drive left
     private void Left (int time,double speed) {
         // The stop and reset encoders is needed to reset and start the encoders (You need one at the
         // end because it tells the robot where the drive code starts and ends, kinda like brackets)
